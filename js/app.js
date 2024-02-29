@@ -11,6 +11,7 @@ function Product(name, src) {
   this.name = name;
   this.src = src;
   this.views = 0;
+  this.clicks = 0;
 }
 
 //----- Methods -----//
@@ -64,6 +65,9 @@ function renderProducts(numberOfProducts) {
       // This seems hacky, better way to clear the pics section?
       imageContainer.innerHTML = '';
       renderProducts(numberOfProducts);
+
+      // Increment the clicks
+      product.clicks++;
     });
 
     // Create the html
