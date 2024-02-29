@@ -1,10 +1,17 @@
+body {
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
 .main-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-content: center; /* Center the grid items horizontally */
-  align-items: center; /* Center the grid items vertically */
+  grid-template-columns: repeat(3, auto); /* Adjust the grid columns to fit content */
+  justify-content: space-between; /* Distribute grid items horizontally with space between */
+  align-items: center; /* Center grid items vertically */
 }
 
 .main-container img {
-  margin: 10px;
+  max-width: 100%; /* Ensure images don't exceed container width */
+  padding: 20px;
 }

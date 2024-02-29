@@ -30,34 +30,27 @@ Array.prototype.shuffle = function () {
 //----- Functions -----//
 
 function genProducts(number) {
-  // Grab a number of random products from the productsTmp array.
-  let randomProducts = [];
-
-  // Shuffle up the array.
+  // Shuffle the products array
   products.shuffle();
 
-  while(number > 0) {
-    number--;
-    randomProducts[number] = products.pop();
-  }
-  return randomProducts;
+  // Return the first 'number' products
+  return products.slice(0, number);
 }
 
-function renderProdcuts(numberofproducts) {
-  // Let's ask genProducts for images
-  let images = genProducts(numberofproducts);
+function renderProducts(numberOfProducts) {
+  // Generate random products
+  let randomProducts = genProducts(numberOfProducts);
 
-  images.forEach(image => {
-    // console.log(image.name);
+  // Display the random products
+  randomProducts.forEach(product => {
     const img = document.createElement('img');
-    img.src = image.src;
-    img.alt = image.name;
+    img.src = product.src;
+    img.alt = product.name;
 
     // Increment the views
-    image.views++;
+    product.views++;
 
     // Limit the size for consistency
-    // Set width and height to 100x100
     img.width = 300;
     img.height = 300;
 
@@ -100,9 +93,11 @@ fileNames.forEach(fileName => {
 // End GPT.
 
 //----- Kickoff -----//
-renderProdcuts(3);
+renderProducts(3);
 
 // Generate some products.
 
 
 // Debug
+
+console.log(products);
