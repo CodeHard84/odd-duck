@@ -3,6 +3,7 @@
 //----- Global Variables -----//
 
 let products = [];
+let productsTmp = products;
 
 //----- Constructors ----- //
 
@@ -30,10 +31,16 @@ Array.prototype.shuffle = function () {
 
 function genProducts(number) {
   // Grab a number of random products from the productsTmp array.
+  let randomProducts = [];
+
+  // Shuffle up the array.
+  products.shuffle();
+
   while(number > 0) {
     number--;
-    console.log(number);
+    randomProducts[number] = productsTmp.pop();
   }
+  return randomProducts;
 }
 
 //----- Load the array -----//
@@ -67,15 +74,12 @@ fileNames.forEach(fileName => {
   products.push(product);
 });
 
-// Shuffle and log
-products.shuffle();
-console.log(products);
-
 // End GPT.
 
 //----- Kickoff -----//
-const productsTmp = products;
 
 // Generate some products.
-genProducts(3);
+console.log(genProducts(3));
 
+// Debug
+console.log(productsTmp);
