@@ -33,7 +33,7 @@ function genProducts(number) {
   // Shuffle the products array
   products.shuffle();
 
-  // Return the first 'number' products
+  // Return the first number (x) products
   return products.slice(0, number);
 }
 
@@ -53,6 +53,18 @@ function renderProducts(numberOfProducts) {
     // Limit the size for consistency
     img.width = 300;
     img.height = 300;
+
+    // Listen for clicks on any of the number of images.
+    img.addEventListener('click', function () {
+
+      //debug
+      console.log(`You clicked ${product.name}`);
+      // console.log(products);
+
+      // This seems hacky, better way to clear the pics section?
+      imageContainer.innerHTML = '';
+      renderProducts(numberOfProducts);
+    });
 
     // Create the html
     imageContainer.appendChild(img);
