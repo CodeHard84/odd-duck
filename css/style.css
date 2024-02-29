@@ -1,3 +1,10 @@
 .main-container {
   display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center; /* Center the grid items horizontally */
+  align-items: center; /* Center the grid items vertically */
+}
+
+.main-container img {
+  margin: 10px;
 }

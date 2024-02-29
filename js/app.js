@@ -3,7 +3,7 @@
 //----- Global Variables -----//
 
 let products = [];
-let productsTmp = products;
+const imageContainer = document.getElementById('pics');
 
 //----- Constructors ----- //
 
@@ -38,9 +38,32 @@ function genProducts(number) {
 
   while(number > 0) {
     number--;
-    randomProducts[number] = productsTmp.pop();
+    randomProducts[number] = products.pop();
   }
   return randomProducts;
+}
+
+function renderProdcuts(numberofproducts) {
+  // Let's ask genProducts for images
+  let images = genProducts(numberofproducts);
+
+  images.forEach(image => {
+    // console.log(image.name);
+    const img = document.createElement('img');
+    img.src = image.src;
+    img.alt = image.name;
+
+    // Increment the views
+    image.views++;
+
+    // Limit the size for consistency
+    // Set width and height to 100x100
+    img.width = 300;
+    img.height = 300;
+
+    // Create the html
+    imageContainer.appendChild(img);
+  });
 }
 
 //----- Load the array -----//
@@ -70,16 +93,16 @@ const fileNames = [
 fileNames.forEach(fileName => {
   const name = fileName.split('.')[0];
   const src = `./img/${fileName}`;
-  const product = new Product(name, src);
+  const product = new Product(name, src); // <--- GPT helped with this line.
   products.push(product);
 });
 
 // End GPT.
 
 //----- Kickoff -----//
+renderProdcuts(3);
 
 // Generate some products.
-console.log(genProducts(3));
+
 
 // Debug
-console.log(productsTmp);
