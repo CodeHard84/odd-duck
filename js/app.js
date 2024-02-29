@@ -26,21 +26,13 @@ Array.prototype.shuffle = function () {
   return this;
 };
 
-// Add a method to Product to generate a number of random products from
-// products array.
-
-// Product.prototype.genProducts = function(number) {
-// };
-
-// I am going to make the above a function for now because I am not sure if
-// putting the method in the constructor is appropriate here...
-
 //----- Functions -----//
 
 function genProducts(number) {
   // Grab a number of random products from the productsTmp array.
   while(number > 0) {
     number--;
+    console.log(number);
   }
 }
 
@@ -67,36 +59,22 @@ const fileNames = [
   'scissors.jpg', 'sweep.png', 'unicorn.jpg', 'wine-glass.jpg'
 ];
 
-const imgObject = {};
-
+// I modified the array function GPT suggested and consolidated it to this.
 fileNames.forEach(fileName => {
   const name = fileName.split('.')[0];
   const src = `./img/${fileName}`;
-  imgObject[name] = src;
+  const product = new Product(name, src);
+  products.push(product);
 });
 
-// TODO: I need to make this create an instance of a product using the
-// constructor.
-
-function populateProductsArray(fileNames, products) {
-  fileNames.forEach(fileName => {
-    const name = fileName.split('.')[0];
-    const src = `./img/${fileName}`;
-    products.push({ name, src });
-  });
-}
+// Shuffle and log
+products.shuffle();
+console.log(products);
 
 // End GPT.
 
 //----- Kickoff -----//
-
-// Populate the array
-populateProductsArray(fileNames, products);
 const productsTmp = products;
-
-// Shuffle the array using our new method shuffle.
-products = products.shuffle();
-console.log(products);
 
 // Generate some products.
 genProducts(3);
