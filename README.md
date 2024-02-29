@@ -1,3 +1,7 @@
+## Lighthouse
+
+![Lighthouse](lighthouse.png)
+
 ## Synopsis
 
 At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. 

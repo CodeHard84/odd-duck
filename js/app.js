@@ -4,6 +4,7 @@
 
 let products = [];
 const imageContainer = document.getElementById('pics');
+let votingRounds = 25;
 
 //----- Constructors ----- //
 
@@ -39,39 +40,61 @@ function genProducts(number) {
 }
 
 function renderProducts(numberOfProducts) {
-  // Generate random products
-  let randomProducts = genProducts(numberOfProducts);
+  const button = document.createElement('button');
+  button.textContent = 'View Results';
+  if (votingRounds > 0) {
+    // Generate random products
+    let randomProducts = genProducts(numberOfProducts);
 
-  // Display the random products
-  randomProducts.forEach(product => {
-    const img = document.createElement('img');
-    img.src = product.src;
-    img.alt = product.name;
+    // Display the random products
+    randomProducts.forEach(product => {
+      const img = document.createElement('img');
+      img.src = product.src;
+      img.alt = product.name;
 
-    // Increment the views
-    product.views++;
+      // Increment the views
+      product.views++;
 
-    // Limit the size for consistency
-    img.width = 300;
-    img.height = 300;
+      // Limit the size for consistency
+      img.width = 300;
+      img.height = 300;
 
-    // Listen for clicks on any of the number of images.
-    img.addEventListener('click', function () {
+      // Listen for clicks on any of the number of images.
+      // Add a check here for the last round and remove the listener.
+      img.addEventListener('click', function () {
 
-      //debug
-      console.log(`You clicked ${product.name}`);
-      // console.log(products);
+        //debug
+        console.log(`You clicked ${product.name}`);
+        // console.log(products);
 
-      // This seems hacky, better way to clear the pics section?
-      imageContainer.innerHTML = '';
-      renderProducts(numberOfProducts);
+        // This seems hacky, better way to clear the pics section?
+        imageContainer.innerHTML = '';
+        renderProducts(numberOfProducts);
 
-      // Increment the clicks
-      product.clicks++;
+        // Increment the clicks
+        product.clicks++;
+      });
+
+      // Create the html
+      imageContainer.appendChild(img);
     });
 
-    // Create the html
-    imageContainer.appendChild(img);
+    // Decrement rounds
+    votingRounds--;
+  } else {
+    button.addEventListener('click', function () {
+      button.remove(); // <--- ChatGPT helped with this line.
+      renderTally();
+    });
+    imageContainer.appendChild(button);
+  }
+}
+
+function renderTally() {
+  // Let's put the results in the imageContainer.
+  products.forEach(product => {
+    imageContainer.innerHTML += '<p>' + product.name + ' was viewed '
+      + product.views + ' and clicked ' + product.clicks + ' times.';
   });
 }
 
