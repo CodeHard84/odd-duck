@@ -3,9 +3,10 @@
 //----- Global Variables -----//
 
 let products = [];
+let lastViewed = [];
 const imageContainer = document.getElementById('pics');
-const chartContainer = document.getElementById('myChart');
 let votingRounds = 5;
+let howManyProducts = 3;
 
 //----- Constructors ----- //
 
@@ -33,6 +34,8 @@ Array.prototype.shuffle = function () {
 //----- Functions -----//
 
 function genProducts(number) {
+  // TODO: Figure out a way to track the last set of images to not
+  // displayer them back to back.
   // Shuffle the products array
   products.shuffle();
 
@@ -41,6 +44,10 @@ function genProducts(number) {
 }
 
 function renderProducts(numberOfProducts) {
+  function handleClick() {
+    // Need to use a function for the clicklistener so I can remove it
+    // down the road.
+  }
   const button = document.createElement('button');
   button.textContent = 'View Results';
   if (votingRounds > 0) {
@@ -61,7 +68,6 @@ function renderProducts(numberOfProducts) {
       img.height = 300;
 
       // Listen for clicks on any of the number of images.
-      // Add a check here for the last round and remove the listener.
       img.addEventListener('click', function () {
 
         //debug
@@ -85,6 +91,11 @@ function renderProducts(numberOfProducts) {
     // Decrement rounds
     votingRounds--;
   } else {
+    // Need to remove the click listener...
+    // the images variable will contain all the images with an eventlistener
+    // just need to find out how to remove the listener.
+    const images = document.querySelectorAll('#pics img');
+
     button.addEventListener('click', function () {
       button.remove(); // <--- ChatGPT helped with this line.
       renderTally();
@@ -115,6 +126,52 @@ function renderChart() {
 
   // productsCombined should have all the data required to build the chart.
   console.log(productsCombined);
+
+  const labels = [];
+  const viewsData = [];
+  const clicksData = [];
+
+  // There has to be a better way for this... I read into 'map' but
+  // I don't quite understand how to use it yet.
+  for (let i = 0; i < productsCombined.length; i++) {
+    labels.push(productsCombined[i].Name);
+    viewsData.push(productsCombined[i].Views);
+    clicksData.push(productsCombined[i].Clicks);
+  }
+
+  // Render chart using Chart.js
+  const canvasChart = document.getElementById('myChart').getContext('2d');
+  const myChart = new Chart(canvasChart, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Views',
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1,
+          data: viewsData
+        },
+        {
+          label: 'Clicks',
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1,
+          data: clicksData
+        }
+      ]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 
 //----- Load the array -----//
@@ -151,7 +208,7 @@ fileNames.forEach(fileName => {
 // End GPT.
 
 //----- Kickoff -----//
-renderProducts(3);
+renderProducts(howManyProducts);
 
 // Generate some products.
 
