@@ -7,6 +7,7 @@ let lastViewed = [];
 const imageContainer = document.getElementById('pics');
 let votingRounds = 5;
 let howManyProducts = 3;
+let firstRun = true;
 
 //----- Constructors ----- //
 
@@ -34,20 +35,21 @@ Array.prototype.shuffle = function () {
 //----- Functions -----//
 
 function genProducts(number) {
-  // TODO: Figure out a way to track the last set of images to not
-  // displayer them back to back.
-  // Shuffle the products array
-  products.shuffle();
+  // How this all fits together:
+  // I remove the first n products from the top of the array.
+  // Once they are rendered, they are added back to the bottom of
+  // the array. This means they will never show back to back.
+
+  if (firstRun) {
+    products.shuffle();
+    firstRun = false;
+  }
 
   // Return the first number (x) products
-  return products.slice(0, number);
+  return products.splice(0, number);
 }
 
 function renderProducts(numberOfProducts) {
-  function handleClick() {
-    // Need to use a function for the clicklistener so I can remove it
-    // down the road.
-  }
   const button = document.createElement('button');
   button.textContent = 'View Results';
   if (votingRounds > 0) {
@@ -69,7 +71,6 @@ function renderProducts(numberOfProducts) {
 
       // Listen for clicks on any of the number of images.
       img.addEventListener('click', function () {
-
         //debug
         console.log(`You clicked ${product.name}`);
         // console.log(products);
@@ -82,6 +83,9 @@ function renderProducts(numberOfProducts) {
 
         // Increment the clicks
         product.clicks++;
+
+        // Append the products to the bottom of the array
+        products.push(product);
       });
 
       // Create the html
