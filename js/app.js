@@ -4,7 +4,7 @@
 
 let products = [];
 const imageContainer = document.getElementById('pics');
-let votingRounds = 25;
+let votingRounds = 5;
 
 //----- Constructors ----- //
 
@@ -68,7 +68,9 @@ function renderProducts(numberOfProducts) {
         // console.log(products);
 
         // This seems hacky, better way to clear the pics section?
-        imageContainer.innerHTML = '';
+        if (votingRounds > 0) {
+          imageContainer.innerHTML = '';
+        }
         renderProducts(numberOfProducts);
 
         // Increment the clicks
