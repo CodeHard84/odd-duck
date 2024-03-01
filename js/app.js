@@ -106,10 +106,15 @@ function renderChart() {
   // Use chart.js to render the stored data.
   const productsCombined = [];
   products.forEach(product => {
-    productsCombined.push(product.name, product.views, product.clicks);
+    productsCombined.push({
+      Name: product.name,
+      Views: product.views,
+      Clicks: product.clicks
+    });
   });
 
   // productsCombined should have all the data required to build the chart.
+  console.log(productsCombined);
 }
 
 //----- Load the array -----//
