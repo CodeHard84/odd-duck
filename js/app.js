@@ -4,6 +4,7 @@
 
 let products = [];
 const imageContainer = document.getElementById('pics');
+const chartContainer = document.getElementById('myChart');
 let votingRounds = 5;
 
 //----- Constructors ----- //
@@ -98,6 +99,17 @@ function renderTally() {
     imageContainer.innerHTML += '<p>' + product.name + ' was viewed '
       + product.views + ' and clicked ' + product.clicks + ' times.';
   });
+  renderChart();
+}
+
+function renderChart() {
+  // Use chart.js to render the stored data.
+  const productsCombined = [];
+  products.forEach(product => {
+    productsCombined.push(product.name, product.views, product.clicks);
+  });
+
+  // productsCombined should have all the data required to build the chart.
 }
 
 //----- Load the array -----//
