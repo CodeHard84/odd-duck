@@ -5,7 +5,7 @@
 let products = [];
 let lastViewed = [];
 const imageContainer = document.getElementById('pics');
-let votingRounds = 5;
+let votingRounds = 25;
 let howManyProducts = 3;
 let firstRun = true;
 
