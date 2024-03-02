@@ -59,6 +59,7 @@ function renderProducts(numberOfProducts) {
 
     // Display the random products
     randomProducts.forEach(product => {
+      // img in this context is an HTML element NOT an object.
       const img = document.createElement('img');
       img.src = product.src;
       img.alt = product.name;
@@ -80,7 +81,7 @@ function renderProducts(numberOfProducts) {
         product.clicks++;
       };
 
-      // Store the onClick function on the object so we can use it later.
+      // Store the onClick function on the element so we can use it later.
       // This allows me to see the onClick function outside of randomProducts
       // scope.
       img.onclick = onClick;
