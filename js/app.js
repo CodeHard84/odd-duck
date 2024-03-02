@@ -5,7 +5,7 @@
 let products = [];
 let lastViewed = [];
 const imageContainer = document.getElementById('pics');
-let votingRounds = 25;
+let votingRounds = 5;
 let howManyProducts = 3;
 let firstRun = true;
 
@@ -69,8 +69,7 @@ function renderProducts(numberOfProducts) {
       img.width = 300;
       img.height = 300;
 
-      // Listen for clicks on any of the number of images.
-      img.addEventListener('click', function () {
+      const onClick = function () {
         //debug
         console.log(`You clicked ${product.name}`);
         // console.log(products);
@@ -83,7 +82,10 @@ function renderProducts(numberOfProducts) {
 
         // Increment the clicks
         product.clicks++;
-      });
+      };
+
+      // Listen for clicks on any of the number of images.
+      img.addEventListener('click', onClick);
 
       // Append the products to the bottom of the array
       products.push(product);
