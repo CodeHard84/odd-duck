@@ -83,10 +83,10 @@ function renderProducts(numberOfProducts) {
 
         // Increment the clicks
         product.clicks++;
-
-        // Append the products to the bottom of the array
-        products.push(product);
       });
+
+      // Append the products to the bottom of the array
+      products.push(product);
 
       // Create the html
       imageContainer.appendChild(img);
