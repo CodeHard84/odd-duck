@@ -52,6 +52,7 @@ function genProducts(number) {
 function renderProducts(numberOfProducts) {
   const button = document.createElement('button');
   button.textContent = 'View Results';
+
   if (votingRounds > 0) {
     // Generate random products
     let randomProducts = genProducts(numberOfProducts);
@@ -69,28 +70,25 @@ function renderProducts(numberOfProducts) {
       img.width = 300;
       img.height = 300;
 
+      // Define the onClick function for this product
       const onClick = function () {
-        //debug
         console.log(`You clicked ${product.name}`);
-        // console.log(products);
-
-        // This seems hacky, better way to clear the pics section?
         if (votingRounds > 0) {
           imageContainer.innerHTML = '';
         }
         renderProducts(numberOfProducts);
-
-        // Increment the clicks
         product.clicks++;
       };
 
-      // Listen for clicks on any of the number of images.
-      img.addEventListener('click', onClick);
+      // Store the onClick function on the object so we can use it later.
+      // This allows me to see the onClick function outside of randomProducts
+      // scope.
+      img.onclick = onClick;
 
-      // Append the products to the bottom of the array
+      // Append the product to the bottom of the array
       products.push(product);
 
-      // Create the html
+      // Create the HTML
       imageContainer.appendChild(img);
     });
 
@@ -98,12 +96,15 @@ function renderProducts(numberOfProducts) {
     votingRounds--;
   } else {
     // Need to remove the click listener...
-    // the images variable will contain all the images with an eventlistener
-    // just need to find out how to remove the listener.
     const images = document.querySelectorAll('#pics img');
+    images.forEach(image => {
+      const onClick = image.onclick;
+      image.removeEventListener('click', onClick);
+      image.onclick = null;
+    });
 
     button.addEventListener('click', function () {
-      button.remove(); // <--- ChatGPT helped with this line.
+      button.remove();
       renderTally();
     });
     imageContainer.appendChild(button);
