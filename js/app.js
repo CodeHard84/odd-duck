@@ -8,6 +8,7 @@ const imageContainer = document.getElementById('pics');
 let votingRounds = 25;
 let howManyProducts = 3;
 let firstRun = true;
+const productsCombined = [];
 
 //----- Constructors ----- //
 
@@ -33,6 +34,12 @@ Array.prototype.shuffle = function () {
 };
 
 //----- Functions -----//
+
+// ChatGPT helped with this key finder.
+// Check if the key exists in localStorage
+function isLocalStorageKeyExists(key) {
+  return localStorage.getItem(key) !== null;
+}
 
 function genProducts(number) {
   // How this all fits together:
@@ -113,27 +120,49 @@ function renderProducts(numberOfProducts) {
 }
 
 function renderTally() {
-  // Let's put the results in the imageContainer.
-  products.forEach(product => {
-    imageContainer.innerHTML += '<p>' + product.name + ' was viewed '
-      + product.views + ' and clicked ' + product.clicks + ' times.';
-  });
   renderChart();
 }
 
 function renderChart() {
   // Use chart.js to render the stored data.
-  const productsCombined = [];
-  products.forEach(product => {
-    productsCombined.push({
-      Name: product.name,
-      Views: product.views,
-      Clicks: product.clicks
+  const keyToCheck = 'productsCombined';
+  if (isLocalStorageKeyExists(keyToCheck)) {
+    const tmpArray = JSON.parse(localStorage.getItem(keyToCheck));
+    console.log(tmpArray);
+    products.forEach((product) => {
+      const tmpProduct = tmpArray.find(item => item.Name === product.name);
+      console.log('tmpViews ' + tmpProduct.Name + ' product name: ' + product.name);
+      productsCombined.push({
+        Name: product.name,
+        Views: product.views + tmpProduct.Views,
+        Clicks: product.clicks + tmpProduct.Clicks
+      });
     });
-  });
+  } else {
+    products.forEach(product => {
+      productsCombined.push({
+        Name: product.name,
+        Views: product.views,
+        Clicks: product.clicks
+      });
+    });
+  }
 
   // productsCombined should have all the data required to build the chart.
   console.log(productsCombined);
+
+  // Since we are only counting votes after completion of all the voting rounds
+  // this seems like the most sensible place to JSONify the data.
+
+  localStorage.setItem('productsCombined', JSON.stringify(productsCombined));
+
+  // Logic problem, this needs to be here...
+  // Let's put the results in the imageContainer.
+  const tmpArray = JSON.parse(localStorage.getItem(keyToCheck));
+  tmpArray.forEach(product => {
+    imageContainer.innerHTML += '<p>' + product.Name + ' was viewed '
+      + product.Views + ' and clicked ' + product.Clicks + ' times.';
+  });
 
   const labels = [];
   const viewsData = [];
