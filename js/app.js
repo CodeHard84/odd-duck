@@ -128,10 +128,8 @@ function renderChart() {
   const keyToCheck = 'productsCombined';
   if (isLocalStorageKeyExists(keyToCheck)) {
     const tmpArray = JSON.parse(localStorage.getItem(keyToCheck));
-    console.log(tmpArray);
     products.forEach((product) => {
       const tmpProduct = tmpArray.find(item => item.Name === product.name);
-      console.log('tmpViews ' + tmpProduct.Name + ' product name: ' + product.name);
       productsCombined.push({
         Name: product.name,
         Views: product.views + tmpProduct.Views,
@@ -147,9 +145,6 @@ function renderChart() {
       });
     });
   }
-
-  // productsCombined should have all the data required to build the chart.
-  console.log(productsCombined);
 
   // Since we are only counting votes after completion of all the voting rounds
   // this seems like the most sensible place to JSONify the data.
@@ -246,10 +241,3 @@ fileNames.forEach(fileName => {
 
 //----- Kickoff -----//
 renderProducts(howManyProducts);
-
-// Generate some products.
-
-
-// Debug
-
-console.log(products);
